@@ -700,7 +700,7 @@ input[type="date"].kontrol, input[type="time"].kontrol, input[type="month"].kont
  * Isi dengan URL Web App Apps Script (…/exec) untuk memakai data asli.
  * ===================================================================== */
 const KONFIG = {
-  API_URL: 'https://script.google.com/macros/s/AKfycbxHnCc0LUnk4BQNBYDeBJuK-U2RZgnOuY7oE9rZHBHnYUFiivD5sRTmrhMy9GxoBF86/exec',
+  API_URL: '',
   VERSI: '1.2.0'
 };
 const DEMO = !KONFIG.API_URL;
@@ -794,7 +794,10 @@ function toast(pesan, jenis) {
 }
 
 /* ===================================================================== API */
+const AKSI_BACA = ['init', 'awal', 'daftarPengajuan', 'detailPengajuan', 'daftarBankNomor', 'cariArsip', 'cariPejabat', 'daftarTemplate', 'unduhBerkas', 'unduhZip'];
 async function api(aksi, data) {
+  const mulai = performance.now();
+  if (AKSI_BACA.indexOf(aksi) === -1) S.pra = {}; // data berubah → buang hasil pra-muat
   const sesi = Sesi.ambil();
   const auth = sesi ? { nama: sesi.nama, token: sesi.token || '' } : {};
   if (DEMO) {
@@ -812,6 +815,7 @@ async function api(aksi, data) {
   let json;
   try { json = await res.json(); } catch (e) { throw galat('Balasan server tidak dapat dibaca.'); }
   if (!json.ok) throw galat(json.error || 'Terjadi kendala.', json.kolom);
+  if (json.ms !== undefined) console.debug('[COPM] ' + aksi + ': server ' + json.ms + ' ms, total ' + Math.round(performance.now() - mulai) + ' ms');
   return json.data;
 }
 function galat(pesan, kolom) { const e = new Error(pesan); e.kolom = kolom || null; return e; }
@@ -885,8 +889,30 @@ async function jalankanRute() {
   if (rute.publik && sesi) { location.hash = '#beranda'; return; }
   if (rute.admin && sesi.peran !== 'admin') { location.hash = '#beranda'; return; }
   if (!S.ref) {
+    const kunciRef = 'copm_ref_' + (sesi ? sesi.nama + '|' + sesi.peran : 'tamu') + '|' + (KONFIG.API_URL || 'demo');
+    const tersimpan = simpan.get(kunciRef);
     try {
-      S.ref = await api('init');
+      if (tersimpan && tersimpan.versi) {
+        // Tampilkan langsung dari cache browser, segarkan di belakang layar
+        S.ref = tersimpan;
+        api('init').then(baru => {
+          simpan.set(kunciRef, baru);
+          const s2 = Sesi.ambil();
+          if (s2 && s2.peran === 'admin' && (!baru.sesi || baru.sesi.peran !== 'admin')) { Sesi.hapus(); S.ref = null; toast('Sesi admin sudah berakhir. Silakan masuk ulang.'); location.hash = '#masuk'; return; }
+          S.ref = baru;
+        }).catch(() => {});
+      } else if (sesi && /^#beranda/.test(hash)) {
+        // Kunjungan pertama: daftar nama + daftar pengajuan dalam SATU permintaan
+        const B = S.beranda;
+        if (!B.tab) B.tab = sesi.peran === 'admin' ? 'semua' : 'saya';
+        const h = await api('awal', { daftar: { filter: Object.assign({}, B.filter, { q: B.q, milik: B.tab === 'saya' }), urut: B.urut, halaman: 1 } });
+        S.ref = h.init;
+        if (h.daftar) S.daftarAwal = Object.assign(h.daftar, { _tab: B.tab });
+        simpan.set(kunciRef, h.init);
+      } else {
+        S.ref = await api('init');
+        simpan.set(kunciRef, S.ref);
+      }
     } catch (e) {
       $('#aplikasi').innerHTML = '<div class="segera" style="min-height:100vh;align-content:center">' + ik('awas') + '<h2>COPM belum dapat dibuka</h2><p>' + esc(e.message) + '</p><button class="tbl utama" onclick="location.reload()">' + ik('segar') + 'Muat ulang</button></div>';
       return;
@@ -1023,9 +1049,18 @@ function halamanMasuk() {
     if (terpilih.peran === 'admin' && !passkey) { $('#salahPasskey').textContent = 'Pass Key wajib diisi untuk admin.'; $('#isianPasskey').classList.add('salah'); $('#inputPasskey').focus(); return; }
     const tbl = $('#tblMasuk'); tbl.disabled = true; tbl.innerHTML = '<span class="putar"></span>Memeriksa…';
     try {
-      const hasil = await api('masuk', { nama: terpilih.nama, passkey: terpilih.peran === 'admin' ? passkey : '' });
+      const tab = terpilih.peran === 'admin' ? 'semua' : 'saya';
+      const hasil = await api('masuk', { nama: terpilih.nama, passkey: terpilih.peran === 'admin' ? passkey : '',
+        daftar: { filter: { q: '', milik: tab === 'saya' }, urut: 'masuk', halaman: 1 } });
       Sesi.pasang(hasil, $('#inputIngat').checked);
       S.ref = null; S.beranda = { tab: null, filter: {}, urut: 'masuk', q: '', halaman: 1 };
+      if (hasil.awal && hasil.awal.init) {
+        // Data Beranda sudah ikut terkirim bersama jawaban masuk
+        S.ref = hasil.awal.init;
+        S.beranda.tab = tab;
+        if (hasil.awal.daftar) S.daftarAwal = Object.assign(hasil.awal.daftar, { _tab: tab });
+        simpan.set('copm_ref_' + hasil.nama + '|' + hasil.peran + '|' + (KONFIG.API_URL || 'demo'), hasil.awal.init);
+      }
       location.hash = '#beranda';
     } catch (err) {
       tbl.disabled = false; tbl.textContent = 'Masuk';
@@ -1216,7 +1251,9 @@ async function muatDaftar() {
   else $('#wadahTabel').style.opacity = '.6';
   try {
     const filter = Object.assign({}, B.filter, { q: B.q, milik: B.tab === 'saya' });
-    const hasil = await api('daftarPengajuan', { filter, urut: B.urut, halaman: B.halaman });
+    let hasil;
+    if (S.daftarAwal && S.daftarAwal._tab === B.tab && B.halaman === 1 && !B.q && !Object.keys(B.filter).length) { hasil = S.daftarAwal; S.daftarAwal = null; }
+    else hasil = await api('daftarPengajuan', { filter, urut: B.urut, halaman: B.halaman });
     if (ke !== nomorMuat || !$('#wadahTabel')) return; // ada permintaan lebih baru / halaman sudah berganti
     hasil._tab = B.tab;
     if (B.halaman > 1 && S.daftar && S.daftar._tab === B.tab) hasil.baris = S.daftar.baris.concat(hasil.baris);
@@ -1290,7 +1327,7 @@ function barisTabel(b) {
     .filter(Boolean).map((x, i) => (i ? '<span class="sep"></span>' : '') + '<span>' + x + '</span>').join('');
   const lencana = (b.sumber && b.sumber !== 'COPM' ? ' <span class="lencana sumber" title="Dicatat admin dari ' + esc(b.sumber) + '">' + esc(b.sumber) + '</span>' : '') +
     (b.massal ? ' <span class="lencana" title="Pengajuan massal">MASSAL</span>' : '');
-  return '<tr class="' + (b.status === 'Baru' ? 'baru' : '') + '" data-tiket="' + esc(b.tiket) + '" onclick="bukaTiket(event,\'' + esc(b.tiket) + '\')">' +
+  return '<tr class="' + (b.status === 'Baru' ? 'baru' : '') + '" data-tiket="' + esc(b.tiket) + '" onclick="bukaTiket(event,\'' + esc(b.tiket) + '\')" onmouseenter="praMuat(\'' + esc(b.tiket) + '\')" ontouchstart="praMuat(\'' + esc(b.tiket) + '\')">' +
     '<td><div class="sel-perihal"><span class="perihal">' + esc(b.perihal) + lencana + '</span><span class="meta">' + meta + '</span></div></td>' +
     '<td><span class="jenis">' + ik(b.jenis === 'Surat' ? 'surat' : 'desain') + esc(b.jenis) + '</span></td>' +
     '<td><div class="sel-dua"><span>' + esc(b.pemohon) + '</span><span class="k">' + esc(b.ekosistem) + '</span></div></td>' +
@@ -1301,6 +1338,18 @@ function barisTabel(b) {
     '<td><div class="sel-aksi"><a class="tbl kecil" href="#tiket/' + esc(b.tiket) + '" onclick="event.stopPropagation()">Buka</a>' +
       '<button class="tbl kecil hantu ikon-saja" aria-label="Aksi lain untuk ' + esc(b.tiket) + '" onclick="menuBaris(event,\'' + esc(b.tiket) + '\')">' + ik('titik3') + '</button></div></td>' +
   '</tr>';
+}
+
+/** Mulai memuat detail sebelum diklik. Tidak untuk tiket Baru milik admin (membuka = menandai Antre). */
+function praMuat(tiket) {
+  S.pra = S.pra || {};
+  const ada = S.pra[tiket];
+  if (ada && Date.now() - ada.waktu < 20000) return;
+  const b = S.daftar && S.daftar.baris.find(x => x.tiket === tiket);
+  if (!b || (b.status === 'Baru' && Sesi.ambil().peran === 'admin')) return;
+  const janji = api('detailPengajuan', { tiket });
+  janji.catch(() => { delete S.pra[tiket]; });
+  S.pra[tiket] = { janji, waktu: Date.now() };
 }
 
 function bukaTiket(ev, tiket) {
@@ -2161,7 +2210,9 @@ async function halamanDetail(m) {
   const tiket = m[1];
   $('#konten').innerHTML = '<div class="kartu kartu-isi" style="display:grid;gap:12px"><div class="rangka" style="width:40%;height:24px"></div><div class="rangka" style="width:70%"></div><div class="rangka" style="width:55%"></div></div>';
   try {
-    const d = await api('detailPengajuan', { tiket });
+    const pra = S.pra && S.pra[tiket];
+    const d = pra && Date.now() - pra.waktu < 20000 ? await pra.janji : await api('detailPengajuan', { tiket });
+    if (S.pra) delete S.pra[tiket];
     if (location.hash !== '#tiket/' + tiket) return; // pengguna sudah pindah halaman
     D = d; D.tiket = tiket;
     gambarDetail();
@@ -3041,6 +3092,10 @@ const Demo = {
     const db = this.muat();
     const u = auth.nama ? db.pengguna.find(x => x.nama === auth.nama && x.aktif) : null;
     const admin = !!(u && u.peran === 'admin' && auth.token === 'demo-token');
+    if (aksi === 'awal') {
+      const init = this.panggil('init', {}, auth);
+      return { init, daftar: u ? this.daftar(db, data.daftar || {}, u, admin) : null };
+    }
     if (aksi === 'init') {
       const r = this.ref();
       if (!admin) r.tautan = r.tautan.filter(t => !t.hanya_admin);
