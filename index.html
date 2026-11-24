@@ -895,6 +895,72 @@ tr.ada-baru .perihal { font-weight: 700; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0s !important; transition-duration: .001ms !important; }
 }
+
+/* ================================================================ v1.5: DPI Hub — Beranda agenda */
+.cta-ajukan { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; }
+.cta { display: flex; align-items: center; gap: 16px; padding: 18px 20px; border-radius: var(--r-kartu); border: 1px solid var(--garis); background: var(--kartu); color: var(--teks);
+  text-decoration: none; transition: transform .15s cubic-bezier(.2, .8, .2, 1), box-shadow .15s, border-color .15s; }
+.cta:hover { text-decoration: none; transform: translateY(-2px); box-shadow: var(--bayang-2); border-color: var(--biru); }
+.cta:active { transform: scale(.985); }
+.cta > .ikon:first-child { width: 40px; height: 40px; padding: 9px; border-radius: 12px; background: var(--biru-lembut); color: var(--biru); flex: none; }
+.cta > span { display: grid; gap: 2px; flex: 1; min-width: 0; }
+.cta b { font-size: 17px; }
+.cta > span > span { font-size: 13px; color: var(--teks-redup); }
+.cta .panah { color: var(--teks-redup); flex: none; }
+.cta.utama { background: var(--biru); border-color: var(--biru); color: var(--teks-di-biru); }
+.cta.utama > span > span, .cta.utama .panah { color: color-mix(in srgb, var(--teks-di-biru) 75%, transparent); }
+.cta.utama > .ikon:first-child { background: color-mix(in srgb, var(--teks-di-biru) 16%, transparent); color: var(--teks-di-biru); }
+.cta.utama:hover { box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--biru) 70%, transparent); }
+
+.agenda-kartu { overflow: hidden; }
+.agenda-kepala { padding: 16px 20px 8px; margin: 0; }
+.ag-filter { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 4px 20px 12px; }
+.ag-filter .chip { flex: none; height: 30px; }
+.titik-orang { display: inline-block; width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.ag-isi { display: grid; }
+.ag-grup { border-top: 1px solid var(--garis); padding: 6px 0 10px; }
+.ag-judul { display: flex; align-items: baseline; gap: 10px; padding: 10px 20px 6px; font-weight: 700; font-size: 13px; letter-spacing: .02em; }
+.ag-judul .ket { font-weight: 500; letter-spacing: 0; }
+.ag-jml { margin-left: auto; min-width: 22px; height: 20px; padding: 0 7px; border-radius: 999px; background: var(--abu-lembut); color: var(--teks-redup); font-size: 11px; font-weight: 700; display: inline-grid; place-items: center; }
+.ag-grup.tindak { background: color-mix(in srgb, var(--kuning) 9%, var(--kartu)); }
+.ag-grup.tindak .ag-jml { background: var(--kuning); color: var(--teks); }
+.ag-grup.kini .ag-judul > span:first-child { color: var(--biru); }
+.ag-grup.kini .ag-jml { background: var(--biru); color: var(--teks-di-biru); }
+details.ag-grup summary { cursor: pointer; list-style: none; }
+details.ag-grup summary::-webkit-details-marker { display: none; }
+details.ag-grup:not([open]) { padding-bottom: 0; }
+.ag-tgl { padding: 8px 20px 2px; font-size: 12px; font-weight: 600; color: var(--teks-redup); }
+.ag-kosong { padding: 2px 20px 6px; font-size: 13px; color: var(--teks-redup); }
+.ag-acara { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 12px; align-items: start; margin: 4px 12px; padding: 10px 10px 10px 12px; border-radius: var(--r-kontrol);
+  border-left: 3px solid var(--warna, var(--biru)); background: var(--kartu); transition: background .15s; }
+.ag-acara:hover { background: color-mix(in srgb, var(--warna, var(--biru)) 6%, var(--kartu)); }
+.ag-acara.beres { opacity: .7; }
+.ag-waktu { display: grid; font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums; line-height: 1.25; }
+.ag-waktu span { font-weight: 500; font-size: 12px; color: var(--teks-redup); }
+.ag-badan { display: grid; gap: 4px; min-width: 0; }
+.ag-nama { font-weight: 600; }
+.ag-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.ag-meta > span { display: inline-flex; align-items: center; gap: 4px; }
+.ag-meta .ikon { width: 13px; height: 13px; }
+.ag-orang { font-weight: 600; color: var(--teks); }
+.ag-tindak { display: grid; gap: 4px; margin-top: 2px; }
+.ag-status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--teks-redup); }
+.ag-status .ikon { width: 14px; height: 14px; }
+.ag-status.awas { color: var(--merah); }
+.ag-status.ok { color: var(--hijau); }
+.ag-surat { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--teks); }
+.ag-aksi { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.langkah-info { display: grid; gap: 8px; padding-left: 18px; margin: 0; font-size: 14px; }
+@media (max-width: 760px) {
+  .cta-ajukan { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .cta { padding: 14px 16px; }
+  .ag-acara { grid-template-columns: 52px minmax(0, 1fr); margin: 4px 8px; }
+  .ag-aksi { grid-column: 1 / -1; justify-content: flex-start; }
+  .ag-judul, .ag-tgl, .ag-kosong { padding-left: 14px; padding-right: 14px; }
+  .agenda-kepala { padding: 14px 14px 6px; } .ag-filter { padding: 4px 14px 10px; }
+  .ag-judul { flex-wrap: wrap; row-gap: 2px; } .ag-judul > span:first-child { white-space: nowrap; }
+  .ag-judul .ket { order: 3; flex-basis: 100%; }
+}
 </style>
 </head>
 <body>
@@ -910,8 +976,8 @@ tr.ada-baru .perihal { font-weight: 700; }
  * Isi dengan URL Web App Apps Script (…/exec) untuk memakai data asli.
  * ===================================================================== */
 const KONFIG = {
-  API_URL: 'https://script.google.com/macros/s/AKfycbxHnCc0LUnk4BQNBYDeBJuK-U2RZgnOuY7oE9rZHBHnYUFiivD5sRTmrhMy9GxoBF86/exec',
-  VERSI: '1.4.0'
+  API_URL: '',
+  VERSI: '1.5.0'
 };
 const DEMO = !KONFIG.API_URL;
 
@@ -990,6 +1056,8 @@ const IKON = {
   lanjut: '<path d="M4 12h12M12 6l6 6-6 6"/>',
   jam: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
   sisi: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 10l-2 2 2 2"/>',
+  lokasi: '<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+  silang: '<path d="M6 6l12 12M18 6 6 18"/>',
   chev: '<path d="m9 6 6 6-6 6"/>',
   lonceng: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10.3 20a2 2 0 0 0 3.4 0"/>',
   akun: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
@@ -1148,8 +1216,9 @@ async function jalankanRute() {
         // Kunjungan pertama: daftar nama + daftar pengajuan dalam SATU permintaan
         const B = S.beranda;
         if (!B.tab) B.tab = sesi.peran === 'admin' ? 'semua' : 'saya';
-        const h = await api('awal', { daftar: { filter: Object.assign({}, B.filter, { q: B.q, milik: B.tab === 'saya' }), urut: B.urut, halaman: 1 } });
+        const h = await api('awal', { agenda: true, daftar: { filter: Object.assign({}, B.filter, { q: B.q, milik: B.tab === 'saya' }), urut: B.urut, halaman: 1 } });
         S.ref = h.init;
+        if (h.agenda) S.agendaAwal = h.agenda;
         if (h.daftar) S.daftarAwal = Object.assign(h.daftar, { _tab: B.tab });
         simpan.set(kunciRef, h.init);
       } else {
@@ -1309,7 +1378,7 @@ function halamanMasuk() {
     try {
       const tab = terpilih.peran === 'admin' ? 'semua' : 'saya';
       const hasil = await api('masuk', { nama: terpilih.nama, passkey: pakaiPk(terpilih) ? passkey : '',
-        daftar: { filter: { q: '', milik: tab === 'saya' }, urut: 'masuk', halaman: 1 } });
+        agenda: true, daftar: { filter: { q: '', milik: tab === 'saya' }, urut: 'masuk', halaman: 1 } });
       Sesi.pasang(hasil, $('#inputIngat').checked);
       S.ref = null; S.beranda = { tab: null, filter: {}, urut: 'masuk', q: '', halaman: 1 };
       if (hasil.awal && hasil.awal.init) {
@@ -1317,6 +1386,7 @@ function halamanMasuk() {
         S.ref = hasil.awal.init;
         S.beranda.tab = tab;
         if (hasil.awal.daftar) S.daftarAwal = Object.assign(hasil.awal.daftar, { _tab: tab });
+        if (hasil.awal.agenda) { S.agendaAwal = hasil.awal.agenda; AG.data = null; }
         simpan.set('copm_ref_' + hasil.nama + '|' + hasil.peran + '|' + (KONFIG.API_URL || 'demo'), hasil.awal.init);
       }
       location.hash = '#beranda';
@@ -1416,33 +1486,166 @@ const KARTU = [
   { id: 'Selesai_bulan_ini', label: 'Selesai bulan ini', titik: 'var(--hijau)', filter: { kartu: 'selesai_bulan_ini' } }
 ];
 
+/* =====================================================================
+ * DPI HUB — BERANDA: AGENDA DPI + PESANAN
+ * ===================================================================== */
+const AG = { data: null, filter: '', muat: false };
+const WARNA_ORANG = ['#1A3D8F', '#0F7B50', '#B45309', '#7C3AED', '#BE185D', '#0E7490', '#4D7C0F', '#9A3412'];
+const warnaOrang = nama => { let h = 0; String(nama || '').split('').forEach(c => { h = (h * 31 + c.charCodeAt(0)) >>> 0; }); return WARNA_ORANG[h % WARNA_ORANG.length]; };
+const tambahHari = (iso, n) => { const d = keTanggal(iso); d.setDate(d.getDate() + n); return isoTanggal(d); };
+const salam = () => { const j = new Date().getHours(); return j < 11 ? 'Selamat pagi' : j < 15 ? 'Selamat siang' : j < 18 ? 'Selamat sore' : 'Selamat malam'; };
+
 function halamanBeranda() {
   const sesi = Sesi.ambil();
   const admin = sesi.peran === 'admin';
   const B = S.beranda;
   if (!B.tab) B.tab = admin ? 'semua' : 'saya';
-
+  const namaDepan = String(sesi.nama).split(' ')[0];
   $('#konten').innerHTML =
     '<div class="judul-halaman">' +
-      '<div class="teks"><p class="ket">' + esc(fmt.panjang(new Date())) + '</p><h1>Beranda</h1></div>' +
-      '<div class="aksi">' + (admin
-        ? '<button class="tbl" onclick="modalRekap()">' + ik('unduh') + 'Unduh rekap</button><a class="tbl" href="#ajukan">' + ik('tambah') + 'Ajukan baru</a><button class="tbl utama" onclick="catatPengajuan()">' + ik('tambah') + 'Catat pengajuan</button>'
-        : '<a class="tbl utama" href="#ajukan">' + ik('tambah') + 'Ajukan baru</a>') +
-      '</div>' +
+      '<div class="teks"><p class="ket">' + esc(fmt.panjang(new Date())) + '</p><h1>' + salam() + ', ' + esc(namaDepan) + '</h1></div>' +
+      (admin ? '<div class="aksi"><button class="tbl" onclick="modalRekap()">' + ik('unduh') + 'Unduh rekap</button><button class="tbl" onclick="catatPengajuan()">' + ik('tumpuk') + 'Catat pengajuan</button></div>' : '') +
     '</div>' +
-    '<section class="angka-grid" id="kartuAngka" aria-label="Ringkasan"></section>' +
-    '<section class="alat-admin" id="alatAdmin"></section>' +
+    '<section class="cta-ajukan">' +
+      '<a class="cta utama" href="#ajukan/surat/buat_dari_nol">' + ik('surat') + '<span><b>Ajukan surat</b><span>Undangan, surat tugas, permohonan, dll.</span></span>' + ik('panah', 'panah') + '</a>' +
+      '<a class="cta" href="#ajukan/desain/desain_baru">' + ik('desain') + '<span><b>Ajukan desain</b><span>Poster, feeds, sertifikat, video</span></span>' + ik('panah', 'panah') + '</a>' +
+    '</section>' +
+    '<section class="kartu agenda-kartu" id="agenda" aria-label="Agenda DPI"></section>' +
     '<section class="kartu" aria-label="Daftar pengajuan">' +
-      '<div class="tab-baris" role="tablist">' +
-        tabHtml('saya', 'Pesanan saya') + tabHtml('semua', 'Pesanan seluruh DPI') +
-      '</div>' +
+      '<div class="tab-baris" role="tablist">' + tabHtml('saya', 'Pesanan saya') + tabHtml('semua', 'Pesanan seluruh DPI') + '</div>' +
       '<div class="bilah" id="bilah"></div>' +
       '<div id="wadahTabel"></div>' +
     '</section>';
-
-  gambarAlatAdmin();
+  muatAgenda();
   gambarBilah();
   muatDaftar();
+}
+
+/** Tampilkan dari cache dulu (instan), lalu segarkan dari server. */
+async function muatAgenda(paksa) {
+  const kunci = 'copm_agenda|' + (KONFIG.API_URL || 'demo');
+  if (!AG.data) AG.data = S.agendaAwal || simpan.get(kunci);
+  S.agendaAwal = null;
+  gambarAgenda();
+  if (AG.muat) return;
+  AG.muat = true;
+  try {
+    const h = await api('agenda', {}, AG.data ? { diam: true } : null);
+    AG.data = h; simpan.set(kunci, h); gambarAgenda();
+  } catch (e) {
+    if (!AG.data && $('#agenda')) $('#agenda').innerHTML = '<div class="kosong">' + ik('awas') + '<div class="judul">Agenda belum dapat dimuat</div><div>' + esc(e.message) + '</div><button class="tbl kecil" onclick="muatAgenda(true)">' + ik('segar') + 'Coba lagi</button></div>';
+  } finally { AG.muat = false; }
+}
+
+function gambarAgenda() {
+  const el = $('#agenda'); if (!el) return;
+  const admin = Sesi.ambil().peran === 'admin';
+  const d = AG.data;
+  const kepala = '<div class="kepala-kartu agenda-kepala">' + ik('jam') + '<h2>Agenda DPI</h2>' +
+    (admin ? '<a class="tbl hantu kecil" style="margin-left:auto" href="https://calendar.google.com/calendar/r" target="_blank" rel="noopener">' + ik('tautan') + 'Google Calendar</a>' +
+      '<button class="tbl hantu kecil ikon-saja" title="Cara menambah acara" aria-label="Cara menambah acara" onclick="infoKalender()">' + ik('awas') + '</button>' : '') + '</div>';
+  if (!d) { el.innerHTML = kepala + '<div class="kartu-isi" style="display:grid;gap:10px">' + [70, 90, 60].map(w => '<div class="rangka" style="width:' + w + '%;height:44px"></div>').join('') + '</div>'; return; }
+  const kini = isoTanggal(hariIni());
+  const orang = Array.from(new Set(d.acara.map(a => a.pemilik).filter(Boolean))).sort((x, y) => (x === 'Lainnya') - (y === 'Lainnya') || x.localeCompare(y));
+  const lolos = a => !AG.filter || a.pemilik === AG.filter;
+  const acara = d.acara.filter(lolos);
+  const pada = t => acara.filter(a => a.mulai <= t && a.selesai >= t);
+  const h1 = tambahHari(kini, 1), h2 = tambahHari(kini, 2);
+  // Tindak lanjut: acara yang berakhir 1–2 hari lalu (maks. H+2) dan belum ditandai selesai
+  const tindak = acara.filter(a => a.selesai < kini && a.selesai >= tambahHari(kini, -2));
+  const mendatang = acara.filter(a => a.mulai > h2);
+  const lewat = acara.filter(a => a.selesai < tambahHari(kini, -2));
+  const perTanggal = daftar => { const g = {}; daftar.forEach(a => { (g[a.mulai] = g[a.mulai] || []).push(a); }); return Object.keys(g).sort().map(t => ({ t, a: g[t] })); };
+  const grup = (judul, kls, daftar, kosong, ket) => '<div class="ag-grup ' + kls + '"><div class="ag-judul"><span>' + judul + '</span>' + (ket ? '<span class="ket">' + ket + '</span>' : '') + '<span class="ag-jml">' + daftar.length + '</span></div>' +
+    (daftar.length ? daftar.map(a => kartuAcara(a, kls)).join('') : '<div class="ag-kosong">' + kosong + '</div>') + '</div>';
+  const belumTindak = tindak.filter(a => !a.tindak).length;
+  el.innerHTML = kepala +
+    (d.galat ? '<div class="peringatan" style="margin:0 20px 12px">' + ik('awas') + '<span>' + esc(d.galat) + '</span></div>' : '') +
+    (orang.length > 1 ? '<div class="ag-filter chip-baris">' + ['', ...orang].map(o => '<button class="chip' + (AG.filter === o ? ' aktif' : '') + '" onclick="AG.filter=\'' + esc(o) + '\';gambarAgenda()">' +
+      (o ? '<span class="titik-orang" style="background:' + warnaOrang(o) + '"></span>' + esc(o) : 'Semua') + '</button>').join('') + '</div>' : '') +
+    '<div class="ag-isi">' +
+      (tindak.length ? grup('Perlu tindak lanjut', 'tindak', tindak, '', 'surat tugas / undangan / laporan keuangan, maks. H+2' + (belumTindak ? ' · ' + belumTindak + ' belum' : '')) : '') +
+      grup('Hari ini', 'kini', pada(kini), 'Tidak ada agenda hari ini.', fmt.hari(kini)) +
+      grup('Besok · H-1', 'h1', pada(h1).filter(a => a.mulai >= h1), 'Tidak ada agenda besok.', fmt.hari(h1)) +
+      grup('Lusa · H-2', 'h2', pada(h2).filter(a => a.mulai >= h2), 'Tidak ada agenda lusa.', fmt.hari(h2)) +
+      '<div class="ag-grup depan"><div class="ag-judul"><span>Mendatang</span><span class="ket">sampai ' + esc(fmt.hari(tambahHari(kini, d.depan || 21))) + '</span><span class="ag-jml">' + mendatang.length + '</span></div>' +
+        (mendatang.length ? perTanggal(mendatang).map(g => '<div class="ag-tgl">' + esc(fmt.hari(g.t)) + '</div>' + g.a.map(a => kartuAcara(a, 'depan')).join('')).join('') : '<div class="ag-kosong">Belum ada agenda.</div>') + '</div>' +
+      (lewat.length ? '<details class="ag-grup lewat"><summary class="ag-judul"><span>Sudah lewat</span><span class="ket">' + (d.lalu || 7) + ' hari terakhir</span><span class="ag-jml">' + lewat.length + '</span></summary>' +
+        lewat.slice().reverse().map(a => kartuAcara(a, 'lewat')).join('') + '</details>' : '') +
+    '</div>';
+}
+
+function waktuAcara(a) {
+  const jam = a.seharian ? 'Seharian' : a.jam_mulai + (a.jam_selesai ? '–' + a.jam_selesai : '') + ' WIB';
+  return (a.selesai !== a.mulai ? fmt.pendek(a.mulai) + ' – ' + fmt.pendek(a.selesai) + ' · ' : '') + jam;
+}
+function kartuAcara(a, kls) {
+  const admin = Sesi.ambil().peran === 'admin';
+  const i = AG.data.acara.indexOf(a);
+  const surat = (a.surat || []).map(s => '<a class="ag-surat" href="#tiket/' + esc(s.tiket) + '"><span class="pill s-' + esc(s.status) + '" style="height:20px;font-size:11px">' + esc(s.status) + '</span>' + esc(s.perihal) + '</a>').join('');
+  const LABEL_TINDAK = { selesai: 'Tindak lanjut selesai', tidak_perlu: 'Tidak perlu surat', dikirim_keuangan: 'Berkas dikirim ke keuangan' };
+  const status = kls === 'tindak'
+    ? (a.tindak ? '<span class="ag-status ok">' + ik('cek') + esc(LABEL_TINDAK[a.tindak.status] || a.tindak.status) + '</span>'
+      : a.surat && a.surat.length ? '<span class="ag-status">' + ik('surat') + 'Ada ' + a.surat.length + ' pengajuan terkait</span>' : '<span class="ag-status awas">' + ik('awas') + 'Belum ada surat terkait</span>') : '';
+  const aksi = [];
+  if (kls !== 'lewat') aksi.push('<button class="tbl kecil" onclick="ajukanDariAgenda(' + i + ')">' + ik('tambah') + 'Ajukan surat</button>');
+  if (kls === 'tindak' && admin && AG.data.wa_keuangan) aksi.push('<a class="tbl kecil" href="' + urlWa(AG.data.wa_keuangan, teksKeuangan(a)) + '" target="_blank" rel="noopener">' + ik('wa') + 'Kabari keuangan</a>');
+  if (kls !== 'lewat' && kls !== 'tindak') aksi.push('<a class="tbl kecil hantu" href="' + urlWa('', teksPengingat(a, kls)) + '" target="_blank" rel="noopener" title="Pilih grup WA lalu kirim">' + ik('wa') + 'Ingatkan di grup</a>');
+  if (kls === 'tindak' && admin) aksi.push('<button class="tbl kecil hantu ikon-saja" aria-label="Tandai tindak lanjut" title="Tandai tindak lanjut" onclick="menuTindak(event,' + i + ')">' + ik('titik3') + '</button>');
+  return '<div class="ag-acara' + (a.tindak ? ' beres' : '') + '" style="--warna:' + warnaOrang(a.pemilik) + '">' +
+    '<div class="ag-waktu">' + esc(a.seharian ? 'Seharian' : a.jam_mulai) + (a.jam_selesai && !a.seharian ? '<span>' + esc(a.jam_selesai) + '</span>' : '') + '</div>' +
+    '<div class="ag-badan"><div class="ag-nama">' + esc(a.judul) + '</div>' +
+      '<div class="ket ag-meta">' + (a.selesai !== a.mulai ? '<span>' + esc(fmt.pendek(a.mulai) + ' – ' + fmt.pendek(a.selesai)) + '</span>' : '') + (a.lokasi ? '<span>' + ik('lokasi') + esc(a.lokasi) + '</span>' : '') +
+        (a.pemilik ? '<span class="ag-orang"><span class="titik-orang" style="background:' + warnaOrang(a.pemilik) + '"></span>' + esc(a.pemilik) + '</span>' : '') + '</div>' +
+      (status || surat ? '<div class="ag-tindak">' + status + surat + '</div>' : '') +
+    '</div>' +
+    (aksi.length ? '<div class="ag-aksi">' + aksi.join('') + '</div>' : '') + '</div>';
+}
+
+/* ---------- draf WA */
+const urlWa = (nomor, teks) => 'https://wa.me/' + String(nomor || '').replace(/\D/g, '') + '?text=' + encodeURIComponent(teks);
+function teksPengingat(a, kls) {
+  const label = kls === 'kini' ? 'HARI INI' : kls === 'h1' ? 'BESOK (H-1)' : kls === 'h2' ? 'LUSA (H-2)' : fmt.hari(a.mulai);
+  return ['*Pengingat Agenda DPI · ' + label + '*', '', '*' + a.judul + '*', fmt.hari(a.mulai) + (a.selesai !== a.mulai ? ' s.d. ' + fmt.hari(a.selesai) : '') + ', ' + (a.seharian ? 'seharian' : a.jam_mulai + (a.jam_selesai ? '–' + a.jam_selesai : '') + ' WIB'),
+    a.lokasi ? 'Tempat: ' + a.lokasi : '', a.pemilik ? 'PIC: ' + a.pemilik : '', '', 'Mohon dipersiapkan. Terima kasih.'].filter((x, i, arr) => x !== '' || arr[i - 1] !== '').join('\n');
+}
+function teksKeuangan(a) {
+  const surat = (a.surat || []).map(s => '- ' + s.perihal + ' (' + s.status + ')').join('\n');
+  return ['Assalamualaikum, tim keuangan.', '', 'Berkas kegiatan berikut sudah siap untuk keperluan administrasi keuangan:', '', '*' + a.judul + '*', fmt.hari(a.mulai) + (a.selesai !== a.mulai ? ' s.d. ' + fmt.hari(a.selesai) : '') + (a.lokasi ? ' · ' + a.lokasi : ''),
+    surat ? '\nBerkas terkait:\n' + surat : '', '', 'Mohon dicek. Terima kasih.'].join('\n');
+}
+
+/* ---------- tindakan */
+function ajukanDariAgenda(i) {
+  const a = AG.data.acara[i];
+  S.prefill = { agenda_id: a.id, agenda_judul: a.judul, nilai: { _kegiatan: true, kegiatan_nama: a.judul, kegiatan_tanggal: a.mulai,
+    kegiatan_waktu_mulai: a.jam_mulai || '', kegiatan_waktu_selesai: a.jam_selesai || '', kegiatan_lokasi: a.lokasi || '', kegiatan_deskripsi: a.deskripsi || '' } };
+  F = null;
+  location.hash = '#ajukan/surat/buat_dari_nol';
+}
+function menuTindak(ev, i) {
+  ev.stopPropagation();
+  const a = AG.data.acara[i];
+  const tandai = async t => {
+    try { AG.data = await api('tandaiAgenda', { agenda_id: a.id, tindak: t, judul: a.judul, tanggal: a.mulai }); gambarAgenda(); toast(t ? 'Tindak lanjut ditandai' : 'Tanda dihapus', 'ok'); }
+    catch (e) { toast(e.message, 'salah'); }
+  };
+  bukaMenu(ev.currentTarget, [
+    { label: 'Tindak lanjut selesai', ikon: 'cek', terpilih: a.tindak && a.tindak.status === 'selesai', aksi: () => tandai('selesai') },
+    { label: 'Berkas dikirim ke keuangan', ikon: 'wa', terpilih: a.tindak && a.tindak.status === 'dikirim_keuangan', aksi: () => tandai('dikirim_keuangan') },
+    { label: 'Tidak perlu surat', ikon: 'silang', terpilih: a.tindak && a.tindak.status === 'tidak_perlu', aksi: () => tandai('tidak_perlu') },
+    '-',
+    { label: 'Hapus tanda', ikon: 'hapus', mati: !a.tindak, aksi: () => tandai('') }
+  ]);
+}
+function infoKalender() {
+  const id = AG.data && AG.data.kalender_id;
+  bukaModal({
+    judul: 'Menambah acara ke Agenda DPI', labelBatal: 'Tutup',
+    isi: '<ol class="langkah-info"><li>Buat acara seperti biasa di Google Calendar masing-masing (pimpinan / koordinator).</li>' +
+      '<li>Di kolom <b>Tamu</b>, tambahkan ID kalender Agenda DPI di bawah ini, lalu simpan.</li><li>Acara otomatis tampil di Beranda DPI Hub (paling lambat 5 menit). Warna mengikuti pembuat acara bila email-nya tercatat di sheet Pengguna.</li></ol>' +
+      (id ? '<div class="input-tombol"><input class="kontrol mono" readonly value="' + esc(id) + '"><button type="button" class="tbl" onclick="salinTeks(\'' + esc(id) + '\',\'ID kalender disalin\')">' + ik('salin') + 'Salin</button></div>' : '<p class="ket">ID kalender belum ada. Jalankan setup() sekali.</p>')
+  });
 }
 
 function tabHtml(id, label) {
@@ -1739,7 +1942,12 @@ function halamanForm(jenisRute, tipe, catat, edit) {
   const lanjut = F && F.jenis === jenis && F.catat === catat && (edit ? F.edit === edit.tiket : !F.edit);
   F = lanjut ? F : { jenis, catat, nilai: edit ? edit.nilai : {}, utama: [], lampiran: [], referensi: [], draft: [], tujuanMassal: {}, kunciDraf: edit ? null : kunciDraf, galat: {}, sudahKirim: false, edit: edit ? edit.tiket : null };
   F.tipe = tipe;
-  if (!lanjut && !edit) {
+  if (!lanjut && !edit && S.prefill && jenis === 'Surat') {
+    // Dari tombol "Ajukan surat" di Agenda DPI: data kegiatan sudah terisi
+    F.nilai = Object.assign({}, S.prefill.nilai, { agenda_id: S.prefill.agenda_id });
+    F.dariAgenda = S.prefill.agenda_judul;
+    S.prefill = null;
+  } else if (!lanjut && !edit) {
     const draf = simpan.get(kunciDraf);
     if (draf && Object.keys(draf).some(k => draf[k] && k !== 'prioritas')) { F.nilai = draf; F.dipulihkan = true; }
   }
@@ -1757,6 +1965,7 @@ function gambarForm() {
   $('#konten').innerHTML =
     '<div class="judul-halaman"><div class="teks"><a class="ket" href="' + (F.edit ? '#tiket/' + F.edit : F.catat ? '#catat' : '#ajukan') + '">' + (F.edit ? '← Kembali ke detail' : '← Pilih jenis lain') + '</a><h1>' + judul + '</h1>' +
       '<p class="redup">' + (F.edit ? 'Perubahan tercatat di riwayat pengajuan, satu baris per isian yang berubah. Berkas lama tetap tersimpan; berkas baru boleh ditambahkan.' : F.catat ? 'Untuk pengajuan yang masuk lewat WA, email, atau lisan. Log mencatat Anda sebagai pencatat dan nama pemohon aslinya.' : 'Isian bertanda <span class="opsional">opsional</span> boleh dikosongkan.') + '</p></div></div>' +
+    (F.dariAgenda ? '<div class="info">' + ik('jam') + '<span>Data kegiatan diisi dari Agenda DPI: <b>' + esc(F.dariAgenda) + '</b>. Pengajuan ini akan tertaut ke agenda tersebut.</span></div>' : '') +
     (F.dipulihkan ? '<div class="info">' + ik('segar') + '<span>Isian terakhir Anda di perangkat ini dipulihkan. Berkas perlu dipilih ulang. <button type="button" onclick="kosongkanForm()">Kosongkan form</button></span></div>' : '') +
     '<form class="form-tata" id="formPengajuan" novalidate autocomplete="off">' +
       '<div class="form-kiri">' + '<div id="galatRingkas"></div>' + (surat ? bagianSurat() : bagianDesain()) + '</div>' +
@@ -2272,7 +2481,7 @@ function payloadPengajuan() {
   const salin = ['perihal', 'kategori', 'penandatangan', 'tujuan', 'ringkasan', 'tembusan', 'narahubung', 'nomor_surat', 'tanggal_surat',
     'prioritas', 'batas_keperluan', 'bulan_keperluan', 'alasan_mendesak', 'catatan_pemohon',
     'kegiatan_nama', 'kegiatan_tanggal', 'kegiatan_waktu_mulai', 'kegiatan_waktu_selesai', 'kegiatan_lokasi', 'kegiatan_deskripsi',
-    'substansi', 'teks_wajib', 'gaya', 'bahasa_desain', 'jumlah_varian', 'durasi_video', 'link_bahan_mentah', 'link_referensi', 'link_draft'];
+    'substansi', 'teks_wajib', 'gaya', 'bahasa_desain', 'jumlah_varian', 'durasi_video', 'link_bahan_mentah', 'link_referensi', 'link_draft', 'agenda_id'];
   salin.forEach(k => { if (n[k] !== undefined && n[k] !== '') d[k] = n[k]; });
   if (!F.catat) d.pemantau = (Array.isArray(n.pemantau_arr) ? n.pemantau_arr : []).filter(x => x !== '—').join(', ');
   if (d.link_draft) d.link_draft = String(d.link_draft).trim();
@@ -3942,17 +4151,17 @@ function modalRekap() {
  * Logika filter, urutan, dan ringkasan sama dengan Code.gs.
  * ===================================================================== */
 const Demo = {
-  KUNCI: 'copm_demo_v4',
+  KUNCI: 'copm_demo_v5',
   data: null,
 
   muat() {
     if (this.data) return this.data;
     this.data = simpan.get(this.KUNCI);
-    if (!this.data || this.data.versi !== 4) { this.data = this.contoh(); this.simpan(); }
+    if (!this.data || this.data.versi !== 5) { this.data = this.contoh(); this.simpan(); }
     return this.data;
   },
   simpan() { simpan.set(this.KUNCI, this.data); },
-  aturUlang() { simpan.del(this.KUNCI); simpan.del('copm_demo_v1'); simpan.del('copm_demo_v2'); simpan.del('copm_demo_v3'); this.data = null; S.daftar = null; S.pejabat = null; toast('Data contoh dikembalikan ke awal.', 'ok'); jalankanRute(); },
+  aturUlang() { simpan.del(this.KUNCI); simpan.del('copm_demo_v1'); simpan.del('copm_demo_v2'); simpan.del('copm_demo_v3'); simpan.del('copm_demo_v4'); this.data = null; S.daftar = null; S.pejabat = null; toast('Data contoh dikembalikan ke awal.', 'ok'); jalankanRute(); },
 
   /* ---------------------------------------------------------------- data contoh [DEMO] */
   contoh() {
@@ -4035,7 +4244,7 @@ const Demo = {
     const manual = i => ({ keterangan: ket[i % 5], pemakai: pem[i % 5], sumber: i % 2 ? 'sheet lama' : 'COPM' });
     for (let i = 0; i < 30; i++) bank.push(Object.assign({ nomor: String(54515 + i), tanggal_terima: hari(0), kode_default: 'TU', tiket: i === 0 ? tk(1) : '', tanggal_surat_terpakai: i === 0 ? hari(0) : '', dipakai_pada: '', keterangan: '', pemakai: '', sumber: 'COPM' }, i > 0 && i < 23 ? manual(i) : {}));
     for (let i = 0; i < 10; i++) bank.push(Object.assign({ nomor: String(54495 + i), tanggal_terima: hari(-3), kode_default: 'TU', tiket: i === 3 ? tk(4) : '', tanggal_surat_terpakai: i === 3 ? hari(-3) : '', dipakai_pada: '', keterangan: '', pemakai: '', sumber: 'COPM' }, i < 6 && i !== 3 ? manual(i) : {}));
-    return { versi: 4, pengguna, pengajuan, berkas, massal, log, komentar, bank, dibaca: {}, pejabat: null,
+    return { versi: 5, pengguna, pengajuan, berkas, massal, log, komentar, bank, dibaca: {}, pejabat: null, agendaCatatan: {},
       kode: [{ kode: 'TU', keterangan: '[DUMMY] Tata usaha: surat umum, undangan, permohonan' }, { kode: 'KS', keterangan: '[DUMMY] Kerja sama: MoU, IA, LoA dengan mitra' }, { kode: 'PP', keterangan: '[DUMMY] Pendidikan & pengajaran: mahasiswa, akademik' }],
       akun: {} };
   },
@@ -4200,7 +4409,7 @@ const Demo = {
     const uSah = u && (u.peran === 'admin' ? true : (!ak(u.nama).passkey || tokSah)) ? u : null;
     if (aksi === 'awal') {
       const init = this.panggil('init', {}, auth);
-      return { init, daftar: u ? this.daftar(db, data.daftar || {}, u, admin) : null };
+      return { init, daftar: u ? this.daftar(db, data.daftar || {}, u, admin) : null, agenda: u && data.agenda ? this.aksi.agenda.call(this, {}, { u, admin }, db) : null };
     }
     if (aksi === 'init') {
       const r = this.ref();
@@ -4231,6 +4440,32 @@ const Demo = {
   aksi: {
     daftarPengajuan(data, ctx, db) { return this.daftar(db, data, ctx.u, ctx.admin); },
     detailPengajuan(data, ctx, db) { const r = this.detail(data.tiket, ctx); if (!data.tanpaBaca) (db.dibaca[ctx.u.nama] = db.dibaca[ctx.u.nama] || {})[data.tiket] = this.kiniMs(); return r; },
+    /** [DEMO] Agenda contoh relatif terhadap hari ini. Versi asli dari kalender bersama "Agenda DPI". */
+    agenda(data, ctx, db) {
+      const t = n => isoTanggal(new Date(Date.now() + n * 864e5));
+      const A = [
+        [-5, '08:00', '12:00', 'Coaching Clinic Beasiswa', 'Ruang Sidang DPI', 'Mira Sintia', 'Ekosistem 1'],
+        [-2, '09:00', '15:00', 'Workshop Penulisan Proposal Hibah', 'IPB International Convention Center', 'Gian Hendra', 'Pimpinan'],
+        [-1, '13:00', '16:00', 'Kunjungan Delegasi Kasetsart University', 'Gedung Rektorat Lt. 5', 'Alfiasari', 'Pimpinan'],
+        [0, '09:00', '11:00', 'Rapat Koordinasi IEF 2026', 'Ruang Sidang DPI', 'Raden Dikky Indrawan', 'Pimpinan'],
+        [0, '14:00', '15:00', 'Briefing Mahasiswa Inbound', 'Zoom', 'Hajrah Nanda Putri', 'Ekosistem 2'],
+        [1, '10:00', '12:00', 'Penandatanganan MoU Universiti Putra Malaysia', 'Ruang Rapat Rektor', 'Alfiasari', 'Pimpinan'],
+        [2, '', '', 'Webinar Global Mobility Series #4', 'Daring', 'Hasna', 'Ekosistem 3'],
+        [5, '08:00', '16:00', 'International Education Fair', 'Graha Widya Wisuda', 'Hajrah Nanda Putri', 'Ekosistem 2'],
+        [9, '13:00', '15:00', 'Evaluasi Program Summer Course', 'Ruang Sidang DPI', 'Gian Hendra', 'Pimpinan']
+      ];
+      const acara = A.map((a, i) => ({ id: 'demo' + i + '|' + t(a[0]), judul: a[3], mulai: t(a[0]), selesai: t(a[0]), jam_mulai: a[1], jam_selesai: a[2], seharian: !a[1], lokasi: a[4], deskripsi: '', pemilik: a[5], ekosistem: a[6] }));
+      acara.forEach(a => {
+        a.surat = db.pengajuan.filter(p => !p.dihapus && (p.agenda_id === a.id)).map(p => ({ tiket: p.tiket, perihal: p.perihal, status: p.status, kategori: p.kategori }));
+        const c = db.agendaCatatan[a.id]; a.tindak = c && c.tindak ? { status: c.tindak, oleh: c.oleh, waktu: c.waktu } : null;
+      });
+      return { acara, galat: '', hari_ini: t(0), lalu: 7, depan: 21, kalender_id: ctx.admin ? '[DEMO]agenda-dpi@group.calendar.google.com' : '', wa_keuangan: '6280000000001' };
+    },
+    tandaiAgenda(data, ctx, db) {
+      this.wajibAdmin(ctx);
+      db.agendaCatatan[data.agenda_id] = { tindak: data.tindak || '', oleh: ctx.u.nama, waktu: this.kini() };
+      return this.aksi.agenda.call(this, {}, ctx, db);
+    },
     notif(data, ctx, db) {
       const item = db.pengajuan.filter(p => !p.dihapus).map(p => { const a = this.belumDibaca(ctx.u, p, ctx.admin); return a ? { tiket: p.tiket, perihal: p.perihal, jenis: a.jenis, oleh: a.oleh, waktu: a.waktu, status: p.status,
         dipantau: !ctx.admin && (p.atas_nama || p.dibuat_oleh) !== ctx.u.nama && p.dibuat_oleh !== ctx.u.nama } : null; }).filter(Boolean).sort((a, b) => b.waktu.localeCompare(a.waktu));
